@@ -22,6 +22,7 @@ void Blur(Mat src, Mat dst, Size ps);
 void BoxFilter(Mat src, Mat dst, int ddepth, Size ps);
 void SqBoxFilter(Mat src, Mat dst, int ddepth, Size ps);
 void Dilate(Mat src, Mat dst, Mat kernel);
+void DilateWithParams(Mat src, Mat dst, Mat kernel, Point anchor, int iterations);
 void Erode(Mat src, Mat dst, Mat kernel);
 void MatchTemplate(Mat image, Mat templ, Mat result, int method, Mat mask);
 struct Moment Moments(Mat src, bool binaryImage);
@@ -82,6 +83,12 @@ void Filter2D(Mat src, Mat dst, int ddepth, Mat kernel, Point anchor, double del
 void SepFilter2D(Mat src, Mat dst, int ddepth, Mat kernelX, Mat kernelY, Point anchor, double delta, int borderType);
 void LogPolar(Mat src, Mat dst, Point center, double m, int flags);
 void FitLine(Contour points, Mat line, int distType, double param, double reps, double aeps);
+
+void LineSegmentDetect(Mat src, Mat lines, int refine, double scale, double sigma, double quant,
+                       double angle, double threshold, double density, int nbins);
+void LineSegmentDetectWidth(Mat src, Mat lines, Mat width,
+                       int refine, double scale, double sigma, double quant,
+                       double angle, double threshold, double density, int nbins);
 #ifdef __cplusplus
 }
 #endif

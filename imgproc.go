@@ -199,6 +199,14 @@ func Dilate(src Mat, dst *Mat, kernel Mat) {
 	C.Dilate(src.p, dst.p, kernel.p)
 }
 
+func DilateWithParams(src Mat, dst *Mat, kernel Mat, anchor image.Point, iterations int) {
+	cAnchor := C.struct_Point{
+		x: C.int(anchor.X),
+		y: C.int(anchor.Y),
+	}
+	C.DilateWithParams(src.p, dst.p, kernel.p, cAnchor, C.int(iterations))
+}
+
 // Erode erodes an image by using a specific structuring element.
 //
 // For further details, please see:
@@ -1306,4 +1314,24 @@ const (
 func FitLine(pts []image.Point, line *Mat, distType DistanceTypes, param, reps, aeps float64) {
 	cPoints := toCPoints(pts)
 	C.FitLine(cPoints, line.p, C.int(distType), C.double(param), C.double(reps), C.double(aeps))
+}
+
+type LineSegmentDetectorMode int
+
+const (
+	LsdRefineNone LineSegmentDetectorMode = 0
+	LsdRefineStd                          = 1
+)
+
+func LineSegmentDetect(src Mat, lines *Mat, refine LineSegmentDetectorMode,
+	scale, sigma, quant, angle, threshold, density float64, nbins int) {
+	C.LineSegmentDetect(src.p, lines.p, C.int(refine), C.double(scale), C.double(sigma), C.double(quant),
+		C.double(angle), C.double(threshold), C.double(density), C.int(nbins))
+}
+
+func LineSegmentDetectWidth(src Mat, lines, width *Mat,
+	refine LineSegmentDetectorMode, scale, sigma, quant, angle, threshold, density float64, nbins int) {
+	C.LineSegmentDetectWidth(src.p, lines.p, width.p,
+		C.int(refine), C.double(scale), C.double(sigma), C.double(quant),
+		C.double(angle), C.double(threshold), C.double(density), C.int(nbins))
 }

@@ -111,6 +111,11 @@ void Dilate(Mat src, Mat dst, Mat kernel) {
     cv::dilate(*src, *dst, *kernel);
 }
 
+void DilateWithParams(Mat src, Mat dst, Mat kernel, Point anchor, int iterations) {
+    cv::Point pt(anchor.x, anchor.y);
+    cv::dilate(*src, *dst, *kernel, pt, iterations);
+}
+
 void Erode(Mat src, Mat dst, Mat kernel) {
     cv::erode(*src, *dst, *kernel);
 }
@@ -471,4 +476,16 @@ void FitLine(Contour points, Mat line, int distType, double param, double reps, 
 		pts.push_back(cv::Point(points.points[i].x, points.points[i].y));
 	}
 	cv::fitLine(pts, *line, distType, param, reps, aeps);
+}
+
+void LineSegmentDetect(Mat src, Mat lines, int refine, double scale, double sigma,
+                       double quant, double angle, double threshold, double density, int nbins) {
+    cv::Ptr<cv::LineSegmentDetector> ls = cv::createLineSegmentDetector(refine, scale, sigma, quant, angle, threshold, density, nbins);
+    ls->detect(*src, *lines);
+}
+
+void LineSegmentDetectWidth(Mat src, Mat lines, Mat width, int refine, double scale, double sigma,
+                       double quant, double angle, double threshold, double density, int nbins) {
+    cv::Ptr<cv::LineSegmentDetector> ls = cv::createLineSegmentDetector(refine, scale, sigma, quant, angle, threshold, density, nbins);
+    ls->detect(*src, *lines, *width);
 }
